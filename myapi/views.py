@@ -14,25 +14,22 @@ def getResponse(request):
         json_data = json.loads(request.body)
         linkAmazon = json_data['link']
         print(linkAmazon)
-        item = LinkItem.objects.get(linkAmazon=linkAmazon)
-        ingredients = scrapPage(item)
-
-        response = {
-            "name": item.productName,
-            "ingredients": ingredients,
-            "error": False
-        }
-        return JsonResponse(response, safe=False)
-        """
         try:
-            
+            item = LinkItem.objects.get(linkAmazon=linkAmazon)
+            ingredients = scrapPage(item)
+
+            response = {
+                "name": item.productName,
+                "ingredients": ingredients,
+                "error": False
+            }
+            return JsonResponse(response, safe=False)
         except:
             response = {
                 "message": "Error occured",
                 "error": True
             }
             return JsonResponse(response, safe=False)
-        """
 
 def removeBefore(str):
     return re.sub(r'^.*?Ingrédients', 'Ingrédients', str)
